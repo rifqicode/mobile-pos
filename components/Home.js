@@ -3,21 +3,40 @@ import { FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import colors from '../assets/data/colors';
-import { openDatabase } from 'react-native-sqlite-storage';
+import { openDatabase, deleteDatabase } from 'react-native-sqlite-storage';
 import CartModel from '../model/Cart';
 
 const db = openDatabase({name: 'pos.db', createFromLocation: 1});
+
 const List = ({item}) => {
-    const itemAdd = async ({id, name, price}) => {
-        db.transaction(function (tx) {
-            tx.executeSql(
-                'INSERT INTO cart (product_id, amount, summary) VALUES (?,?,?)',
-                [id, name, price],
-                (tx, results) => {
-                    alert('Item added')
-                },
-            );
+    const itemAdd = async (data) => {
+        const {id, name, price} = data;
+        const find = await CartModel.findOneBy({
+            product_id : id
         });
+
+        const resultFind = find.rows.item(0);
+        console.log(resultFind);
+
+        // if (!resultFind) {
+        //     console.log('in');
+        //     const create = await CartModel.create({
+        //         product_id: id,
+        //         amount: 1,
+        //         summary: 1
+        //     });
+            
+        //     alert('Item Added');
+        //     return true;
+        // }
+
+        const update = await CartModel.update({
+            product_id: id,
+            amount: 1 + resultFind.amount,
+            summary: 1 + resultFind.summary
+        }, {id : resultFind.id});
+
+        console.log(update);
     }
 
     return (
@@ -34,22 +53,22 @@ const List = ({item}) => {
 const Home = () => {
     const [product, setProduct] = useState([]);
 
-    useEffect(() => {
-        db.transaction(function (txn) {
-        txn.executeSql(
-            "SELECT id, name, price FROM product",
-            [],
-            function (tx, results) {
-                var result = [];
-                for (let i = 0; i < results.rows.length; ++i)
-                    result.push(results.rows.item(i));
+    useEffect(async () => {
+        await db.transaction(function (txn) {
+            txn.executeSql(
+                "SELECT id, name, price FROM product",
+                [],
+                function (tx, results) {
+                    var result = [];
+                    for (let i = 0; i < results.rows.length; ++i)
+                        result.push(results.rows.item(i));
 
-                setProduct(result);
-            },
-            function(error) {
-                alert('Whoops!, something went wrong')
-            }
-        );
+                    setProduct(result);
+                },
+                function(error) {
+                    alert('Whoops!, something went wrong')
+                }
+            );
         });
     }, []);
 

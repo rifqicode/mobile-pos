@@ -10,7 +10,7 @@ const List = ({item}) => {
     return (
         <TouchableOpacity style={styles.productList} key={item.id}> 
             <View style={styles.box} />
-            <Text style={styles.productTitle}> {item.productname} | {item.summary} </Text>
+            <Text style={styles.productTitle}> {item.productname} | summary : {item.summary} | amount: {item.amount} </Text>
             <View style={styles.productAdd}>
                 <Text> <FontAwesome name="shopping-cart" color={colors.white} size={20} /> </Text>
             </View>
@@ -24,11 +24,12 @@ const Cart = ({ navigation }) => {
     const [refresh, setRefresh] = useState(false);
 
     navigation.addListener('focus', () => {
+        console.log('refresh');
         setRefresh(true);
     });
 
-    useEffect(() => {
-        db.transaction(function (txn) {
+    useEffect(async () => {
+        await db.transaction(function (txn) {
             txn.executeSql(
                 "SELECT cart.id, product_id, product.name as productname, amount, summary FROM cart inner join product on product.id = cart.product_id",
                 [],
@@ -38,6 +39,7 @@ const Cart = ({ navigation }) => {
                         result.push(results.rows.item(i));
 
                     setCart(result);
+                    setRefresh(false);
                 },
                 function(error) {
                     alert('Whoops!, something went wrong')
