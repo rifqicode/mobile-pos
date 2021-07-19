@@ -1,29 +1,29 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import colors from '../assets/data/colors';
+import { openDatabase } from 'react-native-sqlite-storage';
+import CartModel from '../model/Cart';
 
-const DATA = [
-  {
-    id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
-    title: "First Item First",
-  },
-  {
-    id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
-    title: "Second Item",
-  },
-  {
-    id: "58694a0f-3da1-471f-bd96-145571e29d72",
-    title: "Third Item",
-  },
-];
-
+const db = openDatabase({name: 'pos.db', createFromLocation: 1});
 const List = ({item}) => {
+    const itemAdd = async ({id, name, price}) => {
+        db.transaction(function (tx) {
+            tx.executeSql(
+                'INSERT INTO cart (product_id, amount, summary) VALUES (?,?,?)',
+                [id, name, price],
+                (tx, results) => {
+                    alert('Item added')
+                },
+            );
+        });
+    }
+
     return (
-        <TouchableOpacity style={styles.productList} onPress={() => alert('Item added')}> 
+        <TouchableOpacity style={styles.productList} key={item.id} onPress={() => itemAdd(item)}> 
             <View style={styles.box} />
-            <Text style={styles.productTitle}> {item.title} </Text>
+            <Text style={styles.productTitle}> {item.name} </Text>
             <View style={styles.productAdd}>
                 <Text> <FontAwesome name="shopping-cart" color={colors.white} size={20} /> </Text>
             </View>
@@ -32,6 +32,27 @@ const List = ({item}) => {
 }
 
 const Home = () => {
+    const [product, setProduct] = useState([]);
+
+    useEffect(() => {
+        db.transaction(function (txn) {
+        txn.executeSql(
+            "SELECT id, name, price FROM product",
+            [],
+            function (tx, results) {
+                var result = [];
+                for (let i = 0; i < results.rows.length; ++i)
+                    result.push(results.rows.item(i));
+
+                setProduct(result);
+            },
+            function(error) {
+                alert('Whoops!, something went wrong')
+            }
+        );
+        });
+    }, []);
+
     return (
         <>
             <SafeAreaView style={{ flex: 1, backgroundColor: colors.secondary}}>
@@ -41,7 +62,7 @@ const Home = () => {
 
                 <View style={styles.product}>
                     <FlatList 
-                        data={DATA}
+                        data={product}
                         renderItem={List}
                         keyExtractor={(item) => item.id}
                         // numColumns={1}

@@ -1,10 +1,51 @@
-import React from 'react';
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import React, { useState, useEffect } from 'react';
+import { SafeAreaView, StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import colors from '../assets/data/colors';
+import {openDatabase} from 'react-native-sqlite-storage';
 
-const Cart = () => {
+const db = openDatabase({name: 'pos.db', createFromLocation: 1});
+const List = ({item}) => {
+    return (
+        <TouchableOpacity style={styles.productList} key={item.id}> 
+            <View style={styles.box} />
+            <Text style={styles.productTitle}> {item.productname} | {item.summary} </Text>
+            <View style={styles.productAdd}>
+                <Text> <FontAwesome name="shopping-cart" color={colors.white} size={20} /> </Text>
+            </View>
+        </TouchableOpacity>
+    )
+}
+
+
+const Cart = ({ navigation }) => {
+    const [cart, setCart] = useState([]);
+    const [refresh, setRefresh] = useState(false);
+
+    navigation.addListener('focus', () => {
+        setRefresh(true);
+    });
+
+    useEffect(() => {
+        db.transaction(function (txn) {
+            txn.executeSql(
+                "SELECT cart.id, product_id, product.name as productname, amount, summary FROM cart inner join product on product.id = cart.product_id",
+                [],
+                function (tx, results) {
+                    var result = [];
+                    for (let i = 0; i < results.rows.length; ++i)
+                        result.push(results.rows.item(i));
+
+                    setCart(result);
+                },
+                function(error) {
+                    alert('Whoops!, something went wrong')
+                }
+            );
+        });
+    }, [refresh]);
+
     return (
         <>
             <SafeAreaView style={{ flex: 1, backgroundColor: colors.secondary}}>
@@ -13,7 +54,11 @@ const Cart = () => {
                 </View>
 
                 <View style={styles.product}>
-                    <Text style={styles.header}> Cart </Text>
+                    <FlatList
+                        data={cart}
+                        renderItem={List}
+                        keyExtractor={(item) => item.id}
+                    />
                 </View>
             </SafeAreaView>
         </>
