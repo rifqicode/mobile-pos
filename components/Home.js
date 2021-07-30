@@ -16,27 +16,11 @@ const List = ({item}) => {
         });
 
         const resultFind = find.rows.item(0);
-        console.log(resultFind);
-
-        // if (!resultFind) {
-        //     console.log('in');
-        //     const create = await CartModel.create({
-        //         product_id: id,
-        //         amount: 1,
-        //         summary: 1
-        //     });
-            
-        //     alert('Item Added');
-        //     return true;
-        // }
-
         const update = await CartModel.update({
             product_id: id,
             amount: 1 + resultFind.amount,
             summary: 1 + resultFind.summary
         }, {id : resultFind.id});
-
-        console.log(update);
     }
 
     return (
