@@ -1,6 +1,8 @@
 import React from 'react';
 import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import colors from '../assets/data/colors';
+import { connect, useSelector } from 'react-redux';
+import { changeThemeAction } from '../redux/action'
+import { listTheme } from '../assets/data/colors'
 
 const ThemeList = [
     '#FE9898',
@@ -10,20 +12,23 @@ const ThemeList = [
     '#ED8E7C'
 ];
 
-const setLayoutHeader = (Theme) => {
-    console.log('Test ' + Theme);
-}
+const ChangeTheme = (props) => {
+    const state = useSelector(state => state);
+    const colors = state.themeValue;
 
-const ChangeTheme = () => {
+    const setTheme = (value) => {
+        props.dispatch(changeThemeAction(value));
+    }
+
     return (
         <>
-            <SafeAreaView style={styles.container}>
+            <SafeAreaView style={{...styles.container, backgroundColor: colors.grey}}>
                 <Text style={styles.headerText}> Choose Color </Text>
 
                 <View style={styles.listColor}>
-                    {ThemeList.map((value, key) => {
+                    {Object.keys(listTheme).map((value, key) => {
                         return (
-                            <TouchableOpacity key={key} onPress={() => setLayoutHeader(value)}>
+                            <TouchableOpacity key={key} onPress={() => setTheme(value)}>
                                 <View style={{...styles.colorPick, backgroundColor: value}}></View>
                             </TouchableOpacity>
                         )
@@ -41,7 +46,6 @@ const styles = StyleSheet.create({
         marginTop: 20,
         marginHorizontal: 5,
         position: 'relative',
-        backgroundColor: colors.grey2
     },
     headerText: {
         fontFamily: 'Montserrat-Regular'
@@ -49,12 +53,17 @@ const styles = StyleSheet.create({
     listColor: {
         marginVertical: 20,
         flexDirection: 'row',
-        flexWrap: 'wrap'
+        flexWrap: 'wrap',
     },
     colorPick: {
         padding: 25,
-        marginHorizontal: 10
+        marginHorizontal: 5,
+        marginVertical: 5
     }
 })
 
-export default ChangeTheme;
+const mapStateToProps = (state, props) => {
+    return { theme: state.theme };
+}
+
+export default connect(mapStateToProps)(ChangeTheme);

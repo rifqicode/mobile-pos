@@ -2,29 +2,32 @@ import React, { useState, useEffect } from 'react';
 import { SafeAreaView, StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-import colors from '../assets/data/colors';
 import {openDatabase} from 'react-native-sqlite-storage';
+import { useSelector } from 'react-redux';
 
 const db = openDatabase({name: 'pos.db', createFromLocation: 1});
-const List = ({item}) => {
-    return (
-        <TouchableOpacity style={styles.productList} key={item.id}> 
-            <View style={styles.box} />
-            <Text style={styles.productTitle}> {item.productname} | summary : {item.summary} | amount: {item.amount} </Text>
-            <View style={styles.productAdd}>
-                <Text> <FontAwesome name="shopping-cart" color={colors.white} size={20} /> </Text>
-            </View>
-        </TouchableOpacity>
-    )
-}
-
+const colors = '';
 
 const Cart = ({ navigation }) => {
     const [cart, setCart] = useState([]);
     const [refresh, setRefresh] = useState(false);
 
+    const state = useSelector(state => state);
+    const colors = state.themeValue;
+
+    const List = ({item}) => {
+        return (
+            <TouchableOpacity style={{...styles.productList, backgroundColor: colors.white}} key={item.id}> 
+                <View style={styles.box} />
+                <Text style={styles.productTitle}> {item.productname} | summary : {item.summary} | amount: {item.amount} </Text>
+                <View style={styles.productAdd}>
+                    <Text> <FontAwesome name="shopping-cart" color={colors.white} size={20} /> </Text>
+                </View>
+            </TouchableOpacity>
+        )
+    }
+
     navigation.addListener('focus', () => {
-        console.log('refresh');
         setRefresh(true);
     });
 
@@ -50,12 +53,12 @@ const Cart = ({ navigation }) => {
 
     return (
         <>
-            <SafeAreaView style={{ flex: 1, backgroundColor: colors.secondary}}>
-                <View style={styles.headerWrapper}>
-                    <Text style={styles.headerText}> Cart </Text>
+            <SafeAreaView style={{ flex: 1, backgroundColor: colors.primary}}>
+                <View style={{...styles.headerWrapper, backgroundColor: colors.primary}}>
+                    <Text style={{...styles.headerText, color: colors.white}}> Cart </Text>
                 </View>
 
-                <View style={styles.product}>
+                <View style={{...styles.product, backgroundColor: colors.grey}}>
                     <FlatList
                         data={cart}
                         renderItem={List}
@@ -72,7 +75,6 @@ const styles = StyleSheet.create({
         flex: 1,
         marginTop: 20,
         marginHorizontal: 5,
-        backgroundColor: colors.secondary,
         maxHeight: 50,
         position: 'relative'
     },
@@ -83,14 +85,12 @@ const styles = StyleSheet.create({
     },
     product: {
         flex: 1,
-        backgroundColor: colors.grey2,
         borderTopLeftRadius: 15,
         borderTopRightRadius: 15,
         padding: 15
     },
     productList: {
         padding: 15,
-        backgroundColor: colors.white,
         marginHorizontal: 5,
         marginVertical: 15,
         borderRadius: 15,

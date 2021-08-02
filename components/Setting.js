@@ -1,33 +1,36 @@
 import React from 'react';
 import { SafeAreaView, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-
-import colors from '../assets/data/colors';
+import { useSelector } from 'react-redux';
 
 const Setting = ({ navigation }) => {
+
+    const state = useSelector(state => state);
+    const colors = state.themeValue;
+
     return (
         <>
-            <SafeAreaView style={{ flex: 1, backgroundColor: colors.secondary}}>
-                <View style={styles.headerWrapper}>
-                    <Text style={styles.headerText}> Setting Product </Text>
+            <SafeAreaView style={{ flex: 1, backgroundColor: colors.primary}}>
+                <View style={{...styles.headerWrapper, backgroundColor: colors.primary}}>
+                    <Text style={{...styles.headerText, color: colors.white}}> Setting Product </Text>
                 </View>
 
-                <View style={styles.body}>
+                <View style={{...styles.body, backgroundColor: colors.grey}}>
                     <TouchableOpacity onPress={() => navigation.navigate('ChangeTheme')}>
-                        <View style={styles.setting}>
-                            <Text style={styles.settingContent}> Change Theme </Text>
+                        <View style={{...styles.setting, backgroundColor: colors.primary}}>
+                            <Text style={{...styles.settingContent, color: colors.text}}> Change Theme </Text>
                         </View>
                     </TouchableOpacity>
 
                     <TouchableOpacity>
-                        <View style={styles.setting}>
-                            <Text style={styles.settingContent}> Add / Update Product </Text>
+                        <View style={{...styles.setting, backgroundColor: colors.primary}}>
+                            <Text style={{...styles.settingContent, color: colors.text}}> Add / Update Product </Text>
                         </View>
                     </TouchableOpacity>
 
                     <TouchableOpacity>
-                        <View style={styles.setting}>
-                            <Text style={styles.settingContent}> Reset Data </Text>
+                        <View style={{...styles.setting, backgroundColor: colors.primary}}>
+                            <Text style={{...styles.settingContent, color: colors.text}}> Reset Data </Text>
                         </View>
                     </TouchableOpacity>
                 </View>
@@ -41,30 +44,26 @@ const styles = StyleSheet.create({
         flex: 1,
         marginTop: 20,
         marginHorizontal: 5,
-        backgroundColor: colors.secondary,
         maxHeight: 50,
         position: 'relative'
     },
     headerText: {
         fontSize: 20,
-        color: colors.white,
         fontFamily: 'Montserrat-Bold'
     },
     body: {
         flex: 1,
-        backgroundColor: colors.grey2,
         borderTopLeftRadius: 15,
         borderTopRightRadius: 15,
         padding: 15,
     },
     setting: {
-        backgroundColor: '#334257',
         padding: 15,
-        borderRadius: 10,
+        borderRadius: 15,
         marginVertical: 10,
     },
     settingContent: {
-        color: 'white'
+        fontWeight: 'bold'
     }
 })
 
