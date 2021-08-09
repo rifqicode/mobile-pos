@@ -28,7 +28,7 @@ const Setting = ({ navigation }) => {
                         </View>
                     </TouchableOpacity>
 
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigation.navigate('ResetData')}>
                         <View style={{...styles.setting, backgroundColor: colors.primary}}>
                             <Text style={{...styles.settingContent, color: colors.text}}> Reset Data </Text>
                         </View>

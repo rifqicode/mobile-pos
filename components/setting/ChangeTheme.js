@@ -1,8 +1,8 @@
 import React from 'react';
 import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { connect, useSelector } from 'react-redux';
-import { changeThemeAction } from '../redux/action'
-import { listTheme } from '../assets/data/colors'
+import { changeThemeAction } from '../../redux/action'
+import { listTheme } from '../../assets/data/colors'
 
 const ThemeList = [
     '#FE9898',
@@ -48,7 +48,8 @@ const styles = StyleSheet.create({
         position: 'relative',
     },
     headerText: {
-        fontFamily: 'Montserrat-Regular'
+        fontFamily: 'Montserrat-Regular',
+        fontWeight: '200'
     },
     listColor: {
         marginVertical: 20,

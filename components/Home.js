@@ -9,8 +9,10 @@ import { useSelector } from 'react-redux';
 
 const db = openDatabase({name: 'pos.db', createFromLocation: 1});
 
-const Home = () => {
+const Home = ({ navigation }) => {
     const [product, setProduct] = useState([]);
+    const [refresh, setRefresh] = useState(false);
+
     const state = useSelector(state => state);
     const colors = state.themeValue;
 
@@ -31,7 +33,11 @@ const Home = () => {
                 }
             );
         });
-    }, []);
+    }, [refresh]);
+
+    navigation.addListener('focus', () => {
+        setRefresh(true);
+    });
 
     const List = ({item}) => {
         const itemAdd = async (data) => {

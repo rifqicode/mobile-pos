@@ -5,10 +5,9 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import Home from './components/Home';
-import Setting from './components/Setting';
 import Cart from './components/Cart';
 import Report from './components/Report';
-import ChangeTheme from './components/ChangeTheme' 
+import SettingStackScreen from './components/setting/SettingStackScreen';
 
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -22,29 +21,6 @@ Entypo.loadFont();
 FontAwesome.loadFont();
 
 const Tab = createBottomTabNavigator();
-const SettingStack = createStackNavigator();
-
-function SettingStackScreen() {
-  const state = useSelector(state => state);
-  const colors = state.themeValue;
-
-  return (
-    <SettingStack.Navigator>
-      <SettingStack.Screen name="Setting" component={Setting} options={{ headerShown: false }} />
-      <SettingStack.Screen name="ChangeTheme" component={ChangeTheme} options={{
-        title: 'Change Theme',
-        headerStyle: {
-          backgroundColor: colors.primary,
-          borderBottomWidth: 3
-        },
-        headerTitleStyle: {
-          fontSize: 18,
-          color: colors.white
-        },
-      }} />
-    </SettingStack.Navigator>
-  );
-}
 
 function MyTabs() {
   const state = useSelector(state => state);
@@ -54,7 +30,7 @@ function MyTabs() {
     <Tab.Navigator tabBarOptions={{
       style: styles.tabBar,
       activeTintColor: colors.primary,
-      inactiveTintColor: '#3d3d3d',
+      inactiveTintColor: '#AAAAAA',
     }}>
       <Tab.Screen name="Home" style={styles.tabScreen} component={Home} options={{
         tabBarIcon: ({color}) => <Entypo name="news" size={22} color={color}  />
