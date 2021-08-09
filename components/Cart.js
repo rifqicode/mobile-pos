@@ -64,6 +64,13 @@ const Cart = ({ navigation }) => {
                         renderItem={List}
                         keyExtractor={(item) => item.id}
                     />
+
+                                        
+                    <TouchableOpacity>
+                        <View style={{...styles.done, backgroundColor: colors.secondary}} >
+                            <Text style={styles.doneText}> Simpan Transaksi </Text>
+                        </View>
+                    </TouchableOpacity>
                 </View>
             </SafeAreaView>
         </>
@@ -97,6 +104,16 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row'
     },
+    done: {
+        marginVertical: 5,
+        padding: 15,
+        borderRadius: 15
+    },
+    doneText: {
+        color: 'white',
+        fontFamily: 'Montserrat-Bold',
+        textAlign: 'center'
+    }
 })
 
 export default Cart;

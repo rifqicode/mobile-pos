@@ -46,6 +46,8 @@ const Home = () => {
                 amount: 1 + resultFind.amount,
                 summary: 1 + resultFind.summary
             }, {id : resultFind.id});
+
+            alert('Successfully Added to Cart');
         }
 
         return (
@@ -67,6 +69,7 @@ const Home = () => {
                 </View>
 
                 <View style={{...styles.product, backgroundColor: colors.grey}}>
+                    <Text style={{ fontFamily: 'Montserrat-Bold'}}> Buat Transaksi </Text>
                     <FlatList 
                         data={product}
                         renderItem={List}
