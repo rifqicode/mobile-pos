@@ -3,6 +3,8 @@ import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View, Alert } from 'r
 import { useSelector } from 'react-redux';
 
 import ProductModel from '../../model/Product';
+import TransactionModel from '../../model/Transaction';
+import TransactionDetailModel from '../../model/TransactionDetail';
 
 const ResetData = () => {
     const state = useSelector(state => state);
@@ -22,7 +24,30 @@ const ResetData = () => {
                       await ProductModel.reset();
                       Alert.alert(
                           'Perhatian!',
-                          'Data Berhasil dihapus'
+                          'Data Berhasil direset'
+                      );
+                  }  
+                }
+            ]
+        );
+    }
+
+    const resetTransaction = () => {
+        Alert.alert(
+            "Perhatian!",
+            "Apakah anda yakin ingin mengahapus transaksi ?",
+            [
+                {
+                    text: "Batal",
+                    style: "cancel"
+                },
+                { text: "Yakin", 
+                  onPress: async () => {
+                      await TransactionModel.reset();
+                      await TransactionDetailModel.reset();
+                      Alert.alert(
+                          'Perhatian!',
+                          'Data Berhasil direset'
                       );
                   }  
                 }
