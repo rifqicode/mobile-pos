@@ -32,7 +32,7 @@ const ResetData = () => {
         );
     }
 
-    const resetTransaction = () => {
+    const resetTransaction = async () => {
         Alert.alert(
             "Perhatian!",
             "Apakah anda yakin ingin mengahapus transaksi ?",
@@ -63,7 +63,7 @@ const ResetData = () => {
                 </View>
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={() => alert('test')}>
+            <TouchableOpacity onPress={async () => await resetTransaction()}>
                 <View style={{...styles.action, backgroundColor: colors.primary}}>
                     <Text style={{...styles.actionText, color: colors.text}}> Reset Transaksi </Text>
                 </View>
