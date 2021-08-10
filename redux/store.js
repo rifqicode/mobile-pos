@@ -5,7 +5,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const persistConfig = {
     key: 'persistedReducer',
-    storage: AsyncStorage
+    storage: AsyncStorage,
+    whitelist: ['themeValue', 'navigation']
 }
 
 const persistedReducer = persistReducer(persistConfig, reducer)

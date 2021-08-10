@@ -25,7 +25,7 @@ const Tab = createBottomTabNavigator();
 function MyTabs() {
   const state = useSelector(state => state);
   const colors = state.themeValue;
-  
+
   return (
     <Tab.Navigator tabBarOptions={{
       style: styles.tabBar,

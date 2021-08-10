@@ -3,7 +3,7 @@ import { getTheme } from '../assets/data/colors';
 
 const initialState = {
     theme: '#FF9A76',
-    themeValue: getTheme('default')
+    themeValue: getTheme('#548CA8')
 }
 
 export default (state = initialState, action) => {

@@ -12,7 +12,7 @@ module.exports = {
         return new Promise((resolve, reject) => {
             db.transaction(function (txn) {
                 txn.executeSql(
-                    `SELECT * FROM transaction WHERE ${keyCondition} LIMIT 1`,
+                    `SELECT * FROM transaction_detail WHERE ${keyCondition} LIMIT 1`,
                     valueCondition,
                     function (tx, results) {
                         resolve(results);
@@ -38,7 +38,7 @@ module.exports = {
 
         db.transaction(function (tx) {
             tx.executeSql(
-                `INSERT INTO transaction (${column}) VALUES (${valueLength})`,
+                `INSERT INTO transaction_detail (${column}) VALUES (${valueLength})`,
                 value,
                 (tx, results) => {
                     resolve(results);
@@ -62,7 +62,7 @@ module.exports = {
         
         db.transaction(function (tx) {
             tx.executeSql(
-                `UPDATE transaction SET ${set} WHERE ${where}`,
+                `UPDATE transaction_detail SET ${set} WHERE ${where}`,
                 [],
                 (tx, results) => {
                     resolve(results);
@@ -77,7 +77,7 @@ module.exports = {
   reset: async function() {
         db.transaction(function (tx) {
             tx.executeSql(
-                'DELETE FROM transaction',
+                'DELETE FROM transaction_detail',
                 [],
                 (tx, results) => {
                     return results;

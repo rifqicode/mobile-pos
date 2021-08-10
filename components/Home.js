@@ -46,12 +46,20 @@ const Home = ({ navigation }) => {
                 product_id : id
             });
 
-            const resultFind = find.rows.item(0);
-            const update = await CartModel.update({
-                product_id: id,
-                amount: 1 + resultFind.amount,
-                summary: 1 + resultFind.summary
-            }, {id : resultFind.id});
+            if (find.rows.item(0)) {
+                const resultFind = find.rows.item(0);
+                const update = await CartModel.update({
+                    product_id: id,
+                    amount: 1 + resultFind.amount,
+                    summary: data.price + resultFind.summary
+                }, {id : resultFind.id});
+            } else {
+                const create = await CartModel.create({
+                    product_id: id,
+                    amount: 1,
+                    summary: data.price
+                })
+            }
 
             alert('Successfully Added to Cart');
         }
