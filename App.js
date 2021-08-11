@@ -5,7 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import Home from './components/Home';
-import Cart from './components/Cart';
+import Cart from './components/cart/Cart';
 import Report from './components/Report';
 import SettingStackScreen from './components/setting/SettingStackScreen';
 

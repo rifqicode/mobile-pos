@@ -74,6 +74,25 @@ module.exports = {
         });
     });
   },
+  delete: async function(condition) {
+        let where = Object.keys(condition).map((value, key) => {
+            return `${value} = ${condition[value]}`
+        }).join(', ');
+
+        db.transaction(function (tx) {
+            tx.executeSql(
+                `DELETE FROM cart WHERE ${where}`,
+                [],
+                (tx, results) => {
+                    resolve(results);
+                },
+                (error) => {
+                    console.log(error);
+                    resolve(error);
+                }
+            );
+        });
+  },
   reset: async function() {
         db.transaction(function (tx) {
             tx.executeSql(
