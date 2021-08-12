@@ -72,9 +72,9 @@ const Cart = ({ navigation }) => {
         let { insertId } = await TransactionModel.create({
             total_price_item: total,
             amount_item: amount,
-            date: moment().format('Y-M-D')
+            date: moment().format('Y-MM-D H:mm:ss')
         });
-        
+
         if (insertId) {
             cart.map( async (value) => {
                 let transactionDetail = await TransactionDetailModel.create({

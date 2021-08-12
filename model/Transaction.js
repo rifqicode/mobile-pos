@@ -85,15 +85,14 @@ module.exports = {
             );
         });
   },
-  reportSummary: async function(condition) {
+  reportSummary: async function(date) {
     return new Promise((resolve, reject) => {
-        let where = Object.keys(condition).map((value, key) => {
-            return `${value} =  "${condition[value]}"`
-        }).join(', ');
-        
         db.transaction(function (tx) {
             tx.executeSql(
-                `SELECT count(total_price_item) count, sum(total_price_item) as total_price_item, sum(amount_item) as amount_item FROM 'transaction' WHERE ${where}`,
+                `SELECT count(total_price_item) count, sum(total_price_item) as total_price_item, sum(amount_item) as amount_item 
+                FROM 'transaction' 
+                WHERE strftime('%Y-%m-%d', datetime(date)) = '${date}'
+                `,
                 [],
                 (tx, results) => {
                     const data = results.rows.item(0);
@@ -110,8 +109,8 @@ module.exports = {
     return new Promise((resolve, reject) => {
         db.transaction(function (tx) {
             tx.executeSql(
-                `   SELECT id, total_price_item, amount_item FROM 'transaction'
-                    WHERE date = '${date}'
+                `   SELECT id, total_price_item, amount_item, date FROM 'transaction'
+                    WHERE strftime('%Y-%m-%d', datetime(date)) = '${date}'
                 `,
                 [],
                 (tx, results) => {

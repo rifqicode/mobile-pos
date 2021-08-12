@@ -8,13 +8,14 @@ import ReportDaily from './ReportDaily'
 
 FontAwesome.loadFont();
 
-const Report = () => {
+const Report = ({navigation}) => {
     const now = moment().format('Y-M-D');
     const state = useSelector(state => state);
     const colors = state.themeValue;
     const [date, setDate] = useState(new Date());
     const [mode, setMode] = useState('date');
     const [show, setShow] = useState(false);
+    const [refresh, setRefresh] = useState(false); 
 
     const monthNames = ["January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"
@@ -34,6 +35,10 @@ const Report = () => {
     const showDatepicker = () => {
         showMode('date');
     };
+
+    navigation.addListener('focus', () => {
+        setRefresh(true);
+    });
 
     return (
         <>
@@ -60,7 +65,7 @@ const Report = () => {
                         )}
                     </TouchableOpacity>
 
-                    <ReportDaily date={date}/>
+                    <ReportDaily date={date} refresh={refresh} setRefresh={setRefresh}/>
                 </View>
             </SafeAreaView>
         </>

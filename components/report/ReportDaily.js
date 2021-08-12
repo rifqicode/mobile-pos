@@ -1,12 +1,13 @@
+import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { View, Text, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { useSelector } from 'react-redux';
-
 import TransactionModel from '../../model/Transaction';
 
 FontAwesome.loadFont();
-const ReportDaily = ({date}) => {
+
+const ReportDaily = ({date, refresh, setRefresh}) => {
     const state = useSelector(state => state);
     const colors = state.themeValue;
     const [summary, setSummary] = useState({})
@@ -17,13 +18,15 @@ const ReportDaily = ({date}) => {
     }
 
     useEffect( async () => {
-        const dateFormat = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+        const month = date.getMonth() + 1;
+        const monthFormat = month >= 10 ? month : `0${month}`;
+        const dateFormat = `${date.getFullYear()}-${monthFormat}-${date.getDate()}`;
 
-        setSummary(await TransactionModel.reportSummary({date: dateFormat}));
+        setSummary(await TransactionModel.reportSummary(dateFormat));
         setTransaction(await TransactionModel.reportTransactionDetail(dateFormat));
 
-        console.log(transaction);
-    }, [date])
+        setRefresh(false);
+    }, [date, refresh])
 
     return (
         <>
@@ -48,11 +51,19 @@ const ReportDaily = ({date}) => {
                         <TouchableOpacity key={key}>
                             <View style={styles.transaction}>
                                 <Text style={styles.transactionHeader}> Produk Terjual {value.amount_item} ( Rp. {currencyFormat(value.total_price_item || 0)} ) </Text> 
-                                <Text style={styles.transactionFooter}> <FontAwesome name="clock-o" size={15} color='black' /> 18:00 </Text> 
+                                <Text style={styles.transactionFooter}> <FontAwesome name="clock-o" size={15} color='black' /> {moment(value.date).format('H:mm')} </Text> 
                             </View> 
                         </TouchableOpacity>
                     )
                 })}
+
+                {transaction.length == 0 && (
+                    <TouchableOpacity>
+                        <View style={styles.transaction}>
+                            <Text style={styles.transactionHeader}> Data Tidak Tersedia </Text>  
+                        </View> 
+                    </TouchableOpacity>
+                )}
             </ScrollView>
         </>
     );
