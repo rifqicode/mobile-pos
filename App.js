@@ -6,7 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import Home from './components/Home';
 import Cart from './components/cart/Cart';
-import Report from './components/Report';
+import Report from './components/report/Report';
 import SettingStackScreen from './components/setting/SettingStackScreen';
 
 import Entypo from 'react-native-vector-icons/Entypo';

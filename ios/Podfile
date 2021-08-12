@@ -16,6 +16,10 @@ target 'pos' do
 
   pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-async-storage/async-storage'
 
+  pod 'RNSVG', :path => '../node_modules/react-native-svg'
+
+  pod 'RNDateTimePicker', :path => '../node_modules/@react-native-community/datetimepicker'
+
   target 'posTests' do
     inherit! :complete
     # Pods for testing
