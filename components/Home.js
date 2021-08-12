@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { store } from '../redux/store'
 
@@ -61,7 +61,7 @@ const Home = ({ navigation }) => {
                 })
             }
 
-            alert('Successfully Added to Cart');
+            Alert.alert('Perhatian!', 'Produk Berhasil ditambah ke keranjang');
         }
 
         return (
@@ -79,7 +79,7 @@ const Home = ({ navigation }) => {
         <>
             <SafeAreaView style={{ flex: 1, backgroundColor: colors.primary}}>
                 <View style={{...styles.headerWrapper, backgroundColor: colors.primary}}>
-                    <Text style={{...styles.headerText, color: colors.white}}> Daftar Product </Text>
+                    <Text style={{...styles.headerText, color: colors.white}}> Daftar Produk </Text>
                 </View>
 
                 <View style={{...styles.product, backgroundColor: colors.grey}}>

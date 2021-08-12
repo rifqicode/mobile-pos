@@ -32,13 +32,13 @@ function MyTabs() {
       activeTintColor: colors.primary,
       inactiveTintColor: '#AAAAAA',
     }}>
-      <Tab.Screen name="Home" style={styles.tabScreen} component={Home} options={{
+      <Tab.Screen name="Produk" style={styles.tabScreen} component={Home} options={{
         tabBarIcon: ({color}) => <Entypo name="news" size={22} color={color}  />
       }}/>
-      <Tab.Screen name="Cart" component={Cart} options={{
+      <Tab.Screen name="Keranjang" component={Cart} options={{
         tabBarIcon: ({color}) => <FontAwesome name="shopping-cart" size={22} color={color} />
       }} />
-      <Tab.Screen name="Report" component={Report} options={{
+      <Tab.Screen name="Laporan" component={Report} options={{
         tabBarIcon: ({color}) => <FontAwesome name="table" size={22} color={color} />
       }} />
       <Tab.Screen name="Settings" component={SettingStackScreen} options={{

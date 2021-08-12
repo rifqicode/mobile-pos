@@ -12,19 +12,19 @@ const Setting = ({ navigation }) => {
         <>
             <SafeAreaView style={{ flex: 1, backgroundColor: colors.primary}}>
                 <View style={{...styles.headerWrapper, backgroundColor: colors.primary}}>
-                    <Text style={{...styles.headerText, color: colors.white}}> Setting Product </Text>
+                    <Text style={{...styles.headerText, color: colors.white}}> Setting Aplikasi </Text>
                 </View>
 
                 <View style={{...styles.body, backgroundColor: colors.grey}}>
                     <TouchableOpacity onPress={() => navigation.navigate('ChangeTheme')}>
                         <View style={{...styles.setting, backgroundColor: colors.primary}}>
-                            <Text style={{...styles.settingContent, color: colors.text}}> Change Theme </Text>
+                            <Text style={{...styles.settingContent, color: colors.text}}> Ganti Tema </Text>
                         </View>
                     </TouchableOpacity>
 
                     <TouchableOpacity>
                         <View style={{...styles.setting, backgroundColor: colors.primary}}>
-                            <Text style={{...styles.settingContent, color: colors.text}}> Add / Update Product </Text>
+                            <Text style={{...styles.settingContent, color: colors.text}}> Tambah / Edit Produk </Text>
                         </View>
                     </TouchableOpacity>
 

@@ -99,7 +99,7 @@ const Cart = ({ navigation }) => {
         <>
             <SafeAreaView style={{ flex: 1, backgroundColor: colors.primary}}>
                 <View style={{...styles.headerWrapper, backgroundColor: colors.primary}}>
-                    <Text style={{...styles.headerText, color: colors.white}}> Cart </Text>
+                    <Text style={{...styles.headerText, color: colors.white}}> Keranjang </Text>
                 </View>
 
                 <View style={{...styles.product, backgroundColor: colors.grey}}>
