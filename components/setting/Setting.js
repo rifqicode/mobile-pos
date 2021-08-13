@@ -22,7 +22,7 @@ const Setting = ({ navigation }) => {
                         </View>
                     </TouchableOpacity>
 
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigation.navigate('CrudProduct')}>
                         <View style={{...styles.setting, backgroundColor: colors.primary}}>
                             <Text style={{...styles.settingContent, color: colors.text}}> Tambah / Edit Produk </Text>
                         </View>

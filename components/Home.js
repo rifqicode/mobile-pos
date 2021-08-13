@@ -27,6 +27,7 @@ const Home = ({ navigation }) => {
                         result.push(results.rows.item(i));
 
                     setProduct(result);
+                    setRefresh(false);
                 },
                 function(error) {
                     alert('Whoops!, something went wrong')
